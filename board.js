@@ -4,10 +4,10 @@ class Board {
     this.boardRows = boardRows;
     this.boardSize = this.boardCols * this.boardRows;
     this.boardEdges = [
-      { border: "top", borderLocation: [] },
-      { border: "bottom", borderLocation: [] },
-      { border: "left", borderLocation: [] },
-      { border: "right", borderLocation: [] },
+      { border: "Up", borderLocation: [] },
+      { border: "Down", borderLocation: [] },
+      { border: "Left", borderLocation: [] },
+      { border: "Right", borderLocation: [] },
     ];
   }
 

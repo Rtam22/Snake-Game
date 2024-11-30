@@ -6,7 +6,6 @@ class GameUI {
   }
 
   updatePlayerLocation(location, prevLocation) {
-    console.log(location);
     this.playerLocation = location;
     const mainHead = document.querySelector(".player-main");
     if (mainHead) {

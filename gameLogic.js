@@ -9,7 +9,13 @@ class GameLogic {
     this.startButton = document.getElementById("start-button");
     this.restartButton = document.getElementById("restart-button");
     this.board = new Board(this.column, this.row);
-    this.player = new Player(1, "Right", 465);
+    this.player = new Player(
+      1,
+      "Right",
+      465,
+      this.handleMoveOffGrid.bind(this),
+      this.calculateMovement
+    );
     this.gameUI = new GameUI(
       this.player.location,
       this.player.prevLocation,
@@ -17,6 +23,40 @@ class GameLogic {
     );
     this.assignControls();
     this.intervalId = null;
+  }
+
+  calculateMovement(direction, column, row, isOnBorder) {
+    console.log(-(column * row - column));
+    const borderMovement = {
+      Right: -column + 1,
+      Left: column - 1,
+      Up: column * row - column,
+      Down: -(column * row - column),
+    };
+    const movement = {
+      Right: 1,
+      Left: -1,
+      Up: -column,
+      Down: column,
+    };
+
+    if (isOnBorder === this.direction) {
+      return borderMovement[direction];
+    } else {
+      return movement[direction];
+    }
+  }
+
+  handleMoveOffGrid(playerLocation) {
+    let borderSide = null;
+    this.board.boardEdges.forEach((border) => {
+      border.borderLocation.forEach((edge) => {
+        if (edge === playerLocation) {
+          borderSide = border.border;
+        }
+      });
+    });
+    return borderSide;
   }
 
   assignControls() {
@@ -53,9 +93,9 @@ class GameLogic {
     }
 
     this.intervalId = setInterval(() => {
-      this.player.updateLocation(this.column);
+      this.player.updateLocation(this.column, this.row);
       this.gameUI.updatePlayerLocation(this.player.location);
-    }, 100);
+    }, 50);
   }
 
   startGame() {
@@ -63,7 +103,7 @@ class GameLogic {
   }
 
   restartGame() {
-    this.handleInterval();
+    clearInterval(this.intervalId);
   }
 
   initializeGame() {

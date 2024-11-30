@@ -1,9 +1,11 @@
 class Player {
-  constructor(size, direction, location) {
+  constructor(size, direction, location, handleMoveOffGrid, calculateMovement) {
     this.size = size;
     this.direction = direction;
     this.location = location;
     this.prevLocation = [];
+    this.handleMoveOffGrid = handleMoveOffGrid;
+    this.calculateMovement = calculateMovement;
   }
 
   setDirection(direction) {
@@ -15,20 +17,12 @@ class Player {
     this.size += this.size;
   }
 
-  updateLocation(column) {
+  updateLocation(column, row) {
+    const onBorder = this.handleMoveOffGrid(this.location);
+    console.log(onBorder);
     this.location =
-      this.location + this.calculateMovement(this.direction, column);
-    console.log(this.location);
-  }
-
-  calculateMovement(direction, column) {
-    const movement = {
-      Right: 1,
-      Left: -1,
-      Up: -column,
-      Down: column,
-    };
-    return movement[direction];
+      this.location +
+      this.calculateMovement(this.direction, column, row, onBorder);
   }
 }
 
