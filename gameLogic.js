@@ -1,13 +1,20 @@
 import Player from "/player.js";
-import Board from "/Board.js";
+import Board from "/board.js";
+import GameUI from "/gameUI.js";
 
 class GameLogic {
   constructor() {
     this.startButton = document.getElementById("start-button");
     this.restartButton = document.getElementById("restart-button");
-    this.board = new Board(20, 20);
-    this.player = new Player(1, "right", this.board.boardSize / 2);
+    this.board = new Board(30, 30);
+    this.player = new Player(1, "right", 465);
+    this.gameUI = new GameUI(
+      this.player.location,
+      this.player.prevLocation,
+      this.player.playerSize
+    );
     this.assignControls();
+    this.intervalId = null;
   }
 
   assignControls() {
@@ -38,14 +45,28 @@ class GameLogic {
     });
   }
 
-  startGame() {}
+  handleAutoMovement() {
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+    }
+    this.intervalId = setInterval(() => {
+      console.log("1");
+    }, 1000);
+  }
 
-  restartGame() {}
+  startGame() {
+    this.handleAutoMovement();
+  }
+
+  restartGame() {
+    this.handleAutoMovement();
+  }
 
   initializeGame() {
     this.board.generateBoard();
-    this.startButton.addEventListener("click", this.startGame());
-    this.restartButton.addEventListener("click", this.restartGame());
+    this.gameUI.addPlayerToBoard();
+    this.startButton.addEventListener("click", () => this.startGame());
+    this.restartButton.addEventListener("click", () => this.restartGame());
   }
 }
 
