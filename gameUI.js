@@ -6,21 +6,23 @@ class GameUI {
   }
 
   updatePlayerLocation(location, prevLocation) {
+    console.log(location);
     this.playerLocation = location;
+    const mainHead = document.querySelector(".player-main");
+    if (mainHead) {
+      mainHead.classList.remove("player-main");
+    }
+    this.addPlayerToBoard();
   }
 
   updatePlayerSize() {}
 
   addPlayerToBoard() {
-    const player = document.createElement("div");
-    player.classList.add("player-main");
-    console.log(this.playerLocation);
     const boardTiles = Array.from(document.querySelectorAll(".grid-box"));
     const currentLocation = boardTiles.find(
       (tile) => this.playerLocation.toString() === tile.id
     );
-
-    currentLocation.appendChild(player);
+    currentLocation.classList.add("player-main");
   }
 }
 

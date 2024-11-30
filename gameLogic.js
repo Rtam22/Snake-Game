@@ -4,10 +4,12 @@ import GameUI from "/gameUI.js";
 
 class GameLogic {
   constructor() {
+    this.column = 30;
+    this.row = 30;
     this.startButton = document.getElementById("start-button");
     this.restartButton = document.getElementById("restart-button");
-    this.board = new Board(30, 30);
-    this.player = new Player(1, "right", 465);
+    this.board = new Board(this.column, this.row);
+    this.player = new Player(1, "Right", 465);
     this.gameUI = new GameUI(
       this.player.location,
       this.player.prevLocation,
@@ -45,21 +47,23 @@ class GameLogic {
     });
   }
 
-  handleAutoMovement() {
+  handleInterval() {
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
     }
+
     this.intervalId = setInterval(() => {
-      console.log("1");
-    }, 1000);
+      this.player.updateLocation(this.column);
+      this.gameUI.updatePlayerLocation(this.player.location);
+    }, 100);
   }
 
   startGame() {
-    this.handleAutoMovement();
+    this.handleInterval();
   }
 
   restartGame() {
-    this.handleAutoMovement();
+    this.handleInterval();
   }
 
   initializeGame() {
