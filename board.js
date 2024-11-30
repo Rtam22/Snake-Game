@@ -1,7 +1,7 @@
 class Board {
   constructor(boardCols, boardRows) {
-    this.boardCols = 20;
-    this.boardRows = 20;
+    this.boardCols = boardCols;
+    this.boardRows = boardRows;
     this.boardSize = this.boardCols * this.boardRows;
     this.boardEdges = [
       { border: "top", borderLocation: [] },

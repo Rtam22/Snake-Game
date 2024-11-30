@@ -1,8 +1,8 @@
 class Player {
   constructor(size, direction, location) {
-    this.size = 1;
-    this.direction = "right";
-    this.location = 1;
+    this.size = size;
+    this.direction = direction;
+    this.location = location;
     this.prevLocation = [];
   }
 
