@@ -3,7 +3,7 @@ class Food {
     this.location = 0;
   }
 
-  generateFoodLocation(maxSize, playerLocation, playerTailLocation) {
+  randomFoodLocation(maxSize, playerLocation, playerTailLocation) {
     let location = Math.floor(Math.random() * maxSize);
     while (
       this.foodSpawnOnPlayer(location, playerLocation, playerTailLocation)
@@ -29,8 +29,7 @@ class Food {
   ) {
     if (playerLocation === this.location) {
       increaseSize();
-      this.generateFoodLocation(gridSize, playerLocation, playerPrevLocation);
-      console.log(this.location);
+      this.randomFoodLocation(gridSize, playerLocation, playerPrevLocation);
       updateFoodLocation(this.location);
     }
   }
