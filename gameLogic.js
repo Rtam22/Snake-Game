@@ -1,6 +1,7 @@
 import Player from "/player.js";
 import Board from "/board.js";
 import GameUI from "/gameUI.js";
+import Food from "/food.js";
 
 class GameLogic {
   constructor() {
@@ -14,6 +15,7 @@ class GameLogic {
       this.handleMovement
     );
     this.gameUI = new GameUI();
+    this.food = new Food();
     this.intervalId = null;
   }
 
@@ -38,15 +40,18 @@ class GameLogic {
     }
   }
 
-  handleMovementOffGrid(playerLocation) {
+  handleMovementOffGrid(playerLocation, direction) {
     let borderSide = null;
     this.board.boardEdges.forEach((border) => {
       border.borderLocation.forEach((edge) => {
         if (edge === playerLocation) {
-          borderSide = border.border;
+          if (border.border === direction) {
+            borderSide = border.border;
+          }
         }
       });
     });
+
     return borderSide;
   }
 
@@ -67,7 +72,6 @@ class GameLogic {
           if (this.player.direction != "Down") {
             this.player.setDirection("Up", "Down");
           }
-          this.player.setDirection("Up");
           break;
         case "ArrowDown":
           if (this.player.direction != "Up") {
@@ -76,6 +80,11 @@ class GameLogic {
           break;
         case "a":
           this.player.increaseSize();
+          this.food.generateFoodLocation(
+            this.column * this.row,
+            this.player.location,
+            this.player.prevLocation
+          );
           break;
       }
     });
@@ -91,6 +100,13 @@ class GameLogic {
       this.gameUI.updatePlayerLocation(
         this.player.location,
         this.player.prevLocation
+      );
+      this.food.foodEatenCheck(
+        this.row * this.column,
+        this.player.location,
+        this.player.prevLocation,
+        this.player.increaseSize.bind(this.player),
+        this.gameUI.updateFoodLocation.bind(this.gameUI)
       );
     }, 50);
   }
@@ -109,6 +125,12 @@ class GameLogic {
       this.player.prevLocation
     );
     this.assignControls();
+    this.food.generateFoodLocation(
+      this.column * this.row,
+      this.player.location,
+      this.player.prevLocation
+    );
+    this.gameUI.addFoodToBoard(this.food.location);
     document
       .getElementById("start-button")
       .addEventListener("click", () => this.startGame());

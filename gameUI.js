@@ -1,6 +1,7 @@
 class GameUI {
   constructor(playerPrevLocations) {
     this.playerPrevLocations = playerPrevLocations;
+    this.boardTiles = Array.from(document.querySelectorAll(".grid-box"));
   }
 
   clearPlayerFromBoard() {
@@ -16,26 +17,41 @@ class GameUI {
     }
   }
 
+  clearFoodFromBoard() {
+    document.querySelector(".food").classList.remove("food");
+  }
+
   updatePlayerLocation(location, prevLocations) {
     this.clearPlayerFromBoard();
     this.addPlayerToBoard(location, prevLocations);
   }
 
+  updateFoodLocation(location) {
+    this.clearFoodFromBoard();
+    this.addFoodToBoard(location);
+  }
+
   addPlayerToBoard(location, prevLocations) {
-    const boardTiles = Array.from(document.querySelectorAll(".grid-box"));
-    const currentLocation = boardTiles.find(
+    const currentLocation = this.boardTiles.find(
       (tile) => location.toString() === tile.id
     );
     currentLocation.classList.add("player-main");
 
     if (prevLocations.length > 0) {
       prevLocations.forEach((prev) => {
-        const tileFound = boardTiles.find(
+        const tileFound = this.boardTiles.find(
           (tile) => prev.toString() === tile.id
         );
         tileFound.classList.add("snake-body");
       });
     }
+  }
+
+  addFoodToBoard(location) {
+    const currentLocation = this.boardTiles.find(
+      (tile) => location.toString() === tile.id
+    );
+    currentLocation.classList.add("food");
   }
 }
 

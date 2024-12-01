@@ -10,7 +10,6 @@
 }
 
 .grid-box {
-  background-color: aquamarine;
   width: 100%;
   height: 100%;
 }
@@ -25,4 +24,11 @@
   background-color: black;
   width: 95%;
   height: 95%;
+}
+
+.food {
+  background-color: red;
+  width: 80%;
+  height: 80%;
+  border-radius: 100%;
 }
