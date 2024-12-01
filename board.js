@@ -9,6 +9,7 @@ class Board {
       { border: "Left", borderLocation: [] },
       { border: "Right", borderLocation: [] },
     ];
+    this.generateBoard();
   }
 
   mapBoardEdges() {

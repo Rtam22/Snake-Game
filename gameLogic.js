@@ -10,14 +10,14 @@ class GameLogic {
     this.player = new Player(
       "Right",
       465,
-      this.handleMoveOffGrid.bind(this),
-      this.calculateMovement
+      this.handleMovementOffGrid.bind(this),
+      this.handleMovement
     );
     this.gameUI = new GameUI();
     this.intervalId = null;
   }
 
-  calculateMovement(direction, column, row, isOnBorder) {
+  handleMovement(direction, column, row, isOnBorder) {
     const borderMovement = {
       Right: -column + 1,
       Left: column - 1,
@@ -38,7 +38,7 @@ class GameLogic {
     }
   }
 
-  handleMoveOffGrid(playerLocation) {
+  handleMovementOffGrid(playerLocation) {
     let borderSide = null;
     this.board.boardEdges.forEach((border) => {
       border.borderLocation.forEach((edge) => {
@@ -104,7 +104,6 @@ class GameLogic {
   }
 
   initializeGame() {
-    this.board.generateBoard();
     this.gameUI.addPlayerToBoard(
       this.player.location,
       this.player.prevLocation
