@@ -6,27 +6,18 @@ class GameLogic {
   constructor() {
     this.column = 30;
     this.row = 30;
-    this.startButton = document.getElementById("start-button");
-    this.restartButton = document.getElementById("restart-button");
     this.board = new Board(this.column, this.row);
     this.player = new Player(
-      1,
       "Right",
       465,
       this.handleMoveOffGrid.bind(this),
       this.calculateMovement
     );
-    this.gameUI = new GameUI(
-      this.player.location,
-      this.player.prevLocation,
-      this.player.playerSize
-    );
-    this.assignControls();
+    this.gameUI = new GameUI();
     this.intervalId = null;
   }
 
   calculateMovement(direction, column, row, isOnBorder) {
-    console.log(-(column * row - column));
     const borderMovement = {
       Right: -column + 1,
       Left: column - 1,
@@ -83,6 +74,9 @@ class GameLogic {
             this.player.setDirection("Down");
           }
           break;
+        case "a":
+          this.player.increaseSize();
+          break;
       }
     });
   }
@@ -94,7 +88,10 @@ class GameLogic {
 
     this.intervalId = setInterval(() => {
       this.player.updateLocation(this.column, this.row);
-      this.gameUI.updatePlayerLocation(this.player.location);
+      this.gameUI.updatePlayerLocation(
+        this.player.location,
+        this.player.prevLocation
+      );
     }, 50);
   }
 
@@ -108,9 +105,17 @@ class GameLogic {
 
   initializeGame() {
     this.board.generateBoard();
-    this.gameUI.addPlayerToBoard();
-    this.startButton.addEventListener("click", () => this.startGame());
-    this.restartButton.addEventListener("click", () => this.restartGame());
+    this.gameUI.addPlayerToBoard(
+      this.player.location,
+      this.player.prevLocation
+    );
+    this.assignControls();
+    document
+      .getElementById("start-button")
+      .addEventListener("click", () => this.startGame());
+    document
+      .getElementById("restart-button")
+      .addEventListener("click", () => this.restartGame());
   }
 }
 

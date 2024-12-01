@@ -1,6 +1,5 @@
 class Player {
-  constructor(size, direction, location, handleMoveOffGrid, calculateMovement) {
-    this.size = size;
+  constructor(direction, location, handleMoveOffGrid, calculateMovement) {
     this.direction = direction;
     this.location = location;
     this.prevLocation = [];
@@ -10,16 +9,18 @@ class Player {
 
   setDirection(direction) {
     this.direction = direction;
-    console.log("Snake direction = " + this.direction);
   }
 
   increaseSize() {
-    this.size += this.size;
+    this.prevLocation.unshift(this.location);
   }
 
   updateLocation(column, row) {
+    if (this.prevLocation.length > 0) {
+      this.prevLocation.pop();
+      this.prevLocation.unshift(this.location);
+    }
     const onBorder = this.handleMoveOffGrid(this.location);
-    console.log(onBorder);
     this.location =
       this.location +
       this.calculateMovement(this.direction, column, row, onBorder);
