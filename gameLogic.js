@@ -55,23 +55,23 @@ class GameLogic {
       switch (e.key) {
         case "ArrowRight":
           if (this.player.direction != "Left") {
-            this.player.setDirection("Right");
+            this.player.setDirection("Right", "Left");
           }
           break;
         case "ArrowLeft":
           if (this.player.direction != "Right") {
-            this.player.setDirection("Left");
+            this.player.setDirection("Left", "Right");
           }
           break;
         case "ArrowUp":
           if (this.player.direction != "Down") {
-            this.player.setDirection("Up");
+            this.player.setDirection("Up", "Down");
           }
           this.player.setDirection("Up");
           break;
         case "ArrowDown":
           if (this.player.direction != "Up") {
-            this.player.setDirection("Down");
+            this.player.setDirection("Down", "Up");
           }
           break;
         case "a":

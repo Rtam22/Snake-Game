@@ -5,10 +5,11 @@ class Player {
     this.prevLocation = [];
     this.handleMovementOffGrid = handleMovementOffGrid;
     this.handleMovement = handleMovement;
+    this.queueDirection = this.direction;
   }
 
   setDirection(direction) {
-    this.direction = direction;
+    this.queueDirection = direction;
   }
 
   increaseSize() {
@@ -16,6 +17,8 @@ class Player {
   }
 
   updateLocation(column, row) {
+    this.direction = this.queueDirection;
+
     if (this.prevLocation.length > 0) {
       this.prevLocation.pop();
       this.prevLocation.unshift(this.location);
