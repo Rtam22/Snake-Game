@@ -5,10 +5,10 @@ import Food from "/food.js";
 
 class GameLogic {
   constructor() {
-    this.column = 30;
-    this.row = 30;
+    this.column = 25;
+    this.row = 25;
     this.board = new Board(this.column, this.row);
-    this.player = new Player("Right", 465, this.board.boardEdges);
+    this.player = new Player("Right", 363, this.board.boardEdges);
     this.gameUI = new GameUI();
     this.food = new Food();
     this.intervalId = null;
@@ -66,11 +66,24 @@ class GameLogic {
         this.player.increaseSize.bind(this.player),
         this.gameUI.updateFoodLocation.bind(this.gameUI)
       );
+      this.deathCheck();
     }, 50);
+  }
+
+  deathCheck() {
+    this.player.prevLocation.forEach((prev, index) => {
+      if (prev === this.player.location && index != 0) {
+        this.endGame();
+      }
+    });
   }
 
   startGame() {
     this.handleInterval();
+  }
+
+  endGame() {
+    clearInterval(this.intervalId);
   }
 
   initializeGame() {
