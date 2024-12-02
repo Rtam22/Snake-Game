@@ -38,14 +38,6 @@ class GameLogic {
             this.player.setDirection("Down", "Up");
           }
           break;
-        case "a":
-          this.player.increaseSize();
-          this.food.randomFoodLocation(
-            this.column * this.row,
-            this.player.location,
-            this.player.prevLocation
-          );
-          break;
       }
     });
   }
