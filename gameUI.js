@@ -21,6 +21,11 @@ class GameUI {
     document.querySelector(".food").classList.remove("food");
   }
 
+  clearBoard() {
+    this.clearPlayerFromBoard();
+    this.clearFoodFromBoard();
+  }
+
   updatePlayerLocation(location, prevLocations) {
     this.clearPlayerFromBoard();
     this.addPlayerToBoard(location, prevLocations);

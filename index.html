@@ -7,9 +7,12 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div class="game-grid"></div>
-
-    <button id="start-button">Start</button>
+    <div class="game-grid">
+      <div class="overlay">
+        <button id="start-button" class="button">Start</button>
+        <button id="restart-button" class="button hidden">Restart Game</button>
+      </div>
+    </div>
   </body>
   <script type="module" src="gameLogic.js"></script>
 </html>

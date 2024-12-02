@@ -8,10 +8,11 @@ class GameLogic {
     this.column = 25;
     this.row = 25;
     this.board = new Board(this.column, this.row);
-    this.player = new Player("Right", 363, this.board.boardEdges);
+    this.player = new Player("Right", 338, this.board.boardEdges);
     this.gameUI = new GameUI();
     this.food = new Food();
     this.intervalId = null;
+    this.overlay = document.querySelector(".overlay");
   }
 
   assignControls() {
@@ -78,12 +79,30 @@ class GameLogic {
     });
   }
 
-  startGame() {
+  startGame(type) {
+    if (type === "restart") {
+      this.player = new Player("Right", 338, this.board.boardEdges);
+      this.gameUI.clearBoard();
+      this.addFoodToGame();
+    }
     this.handleInterval();
+    this.overlay.classList.add("hidden");
   }
 
   endGame() {
     clearInterval(this.intervalId);
+    this.overlay.classList.remove("hidden");
+    document.getElementById("start-button").classList.add("hidden");
+    document.getElementById("restart-button").classList.remove("hidden");
+  }
+
+  addFoodToGame() {
+    this.food.randomFoodLocation(
+      this.column * this.row,
+      this.player.location,
+      this.player.prevLocation
+    );
+    this.gameUI.addFoodToBoard(this.food.location);
   }
 
   initializeGame() {
@@ -92,15 +111,13 @@ class GameLogic {
       this.player.prevLocation
     );
     this.assignControls();
-    this.food.randomFoodLocation(
-      this.column * this.row,
-      this.player.location,
-      this.player.prevLocation
-    );
-    this.gameUI.addFoodToBoard(this.food.location);
+    this.addFoodToGame();
     document
       .getElementById("start-button")
-      .addEventListener("click", () => this.startGame());
+      .addEventListener("click", () => this.startGame("start"));
+    document
+      .getElementById("restart-button")
+      .addEventListener("click", () => this.startGame("restart"));
   }
 }
 
